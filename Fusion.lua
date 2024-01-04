@@ -1,3 +1,6 @@
+require("ReactorHandler")
+require("LaserHandler")
+
 local component = require("component")
 local thread = require("thread")
 local terminal = require("term")

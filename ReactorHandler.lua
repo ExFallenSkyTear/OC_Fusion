@@ -1,22 +1,24 @@
 -- Meta class
-Reactor = {address = ""}
 
--- Base class method new
+Reactor = {component = nil,
+           proxy = nil}
 
+-- Base class constructor
 function Reactor:new(address)
    instance = {}
    setmetatable(instance, self)
    self.__index = self
    
-   self.address = address or ""
+   self.component = require("component")
+   self.proxy = self.component.proxy(address)
    
    return instance
 end
 
--- Base class method printArea
+-- Base class methods
 
 function Reactor:getAddress()
-   return self.address
+   return self.proxy.address
 end
 
 -- Creating an object
