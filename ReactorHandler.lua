@@ -4,6 +4,7 @@ ReactorHandler = {component = nil,
                   proxy = nil}
 
 -- Base class constructor
+
 function ReactorHandler:new(address)
    instance = {}
    setmetatable(instance, self)
