@@ -1,6 +1,6 @@
 -- Meta class
 
-Laser = {component = nil,
+LaserHandler = {component = nil,
          proxy = nil,
          redstoneProxy = nil,
          redstoneSide = nil,
@@ -8,7 +8,7 @@ Laser = {component = nil,
 
 -- Base class constructor
 
-function Laser:new(address)
+function LaserHandler:new(address)
    instance = {}
    setmetatable(instance, self)
    self.__index = self
@@ -19,42 +19,42 @@ function Laser:new(address)
    return instance
 end
 
-function Laser:redstoneRef(address, side)
+function LaserHandler:redstoneRef(address, side)
     self.redstoneProxy = self.component.proxy(address)
     self.redstoneSide = side
 end
 
 -- Base class methods
 
-function Laser:getAddress()
+function LaserHandler:getAddress()
    return self.proxy.address
 end
 
-function Laser:getEnergyPercentage()
+function LaserHandler:getEnergyPercentage()
     return self.getEnergy() / self.getMaxEnergy()
 end
 
-function Laser:getEnergy()
+function LaserHandler:getEnergy()
     return self.proxy.getEnergy()
 end
 
-function Laser:getMaxEnergy()
+function LaserHandler:getMaxEnergy()
     return self.proxy.getMaxEnergy()
 end
 
-function Laser:pulse()
+function LaserHandler:pulse()
     self.redstoneProxy.setOutput(self.redstoneSide, 15)
     self.redstoneProxy.setOutput(self.redstoneSide, 0)
 end
 
-function Laser:setThreshold(threshold)
+function LaserHandler:setThreshold(threshold)
     self.activationThreshold = threshold
 end
 
-function Laser:getThreshold()
+function LaserHandler:getThreshold()
     return self.activationThreshold
 end
 
-function Laser:isReady()
+function LaserHandler:isReady()
     return self.getEnergy() >= self.getThreshold()
 end

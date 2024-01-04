@@ -1,10 +1,10 @@
 -- Meta class
 
-ReactorHandler = {component = nil,
-                  proxy = nil}
+InductionMatrixHandler = {component = nil,
+                   proxy = nil}
 
 -- Base class constructor
-function ReactorHandler:new(address)
+function InductionMatrixHandler:new(address)
    instance = {}
    setmetatable(instance, self)
    self.__index = self
@@ -17,6 +17,6 @@ end
 
 -- Base class methods
 
-function ReactorHandler:getAddress()
+function InductionMatrixHandler:getAddress()
    return self.proxy.address
 end
