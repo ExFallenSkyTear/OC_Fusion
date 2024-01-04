@@ -90,7 +90,7 @@ function fusionTouchHandler(x, y)
   if 3 <= x and x <= screenWidth - 2 and 5 <= y and y <= 7 then
     local percentage = ((x - 3) / (screenWidth - (3 + 2))) * 98
     
-    reactor::setInjectionRate(injectionRate)
+    reactor:setInjectionRate(injectionRate)
     --computer.beep(200 + 800 * percentage, 0.1)
   end
 end
