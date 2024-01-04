@@ -21,3 +21,7 @@ end
 function ReactorHandler:getAddress()
    return self.proxy.address
 end
+
+function ReactorHandler:isIgnited()
+   return self.proxy.isIgnited()
+end
