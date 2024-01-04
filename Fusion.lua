@@ -1,5 +1,7 @@
 require("ReactorHandler")
 require("LaserHandler")
+require("InductionMatrixHandler")
+require("SoundHandler")
 
 local component = require("component")
 local thread = require("thread")
