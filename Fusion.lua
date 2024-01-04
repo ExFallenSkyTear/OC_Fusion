@@ -11,10 +11,10 @@ local unicode = require("unicode")
 local sides = require("sides")
 local gpu = component.gpu
 
-local reactor = ReactorHandler::new(component.reactor_logic_adapter.address)
-local laser = LaserHandler::new(component.laser_amplifier.address)
-local inductionMatrix = InductionMatrixHandler::new(component.induction_matrix.address)
-local sound = SoundHandler::new()
+local reactor = ReactorHandler:new(component.reactor_logic_adapter.address)
+local laser = LaserHandler:new(component.laser_amplifier.address)
+local inductionMatrix = InductionMatrixHandler:new(component.induction_matrix.address)
+local sound = SoundHandler:new()
 
 local backgroundColor = 0x444444
 local foregroundColor = 0xffffff
@@ -50,22 +50,22 @@ end
 function setup()
   event.listen("touch", touchHandler)
 
-  laser::redstoneRef(component.redstone.address, sides.front)
-  laser::setThreshold(laser::getMaxEnergy() * 0.5)
+  laser:redstoneRef(component.redstone.address, sides.front)
+  laser:setThreshold(laser:getMaxEnergy() * 0.5)
 end
 
 function exit()
   event.ignore("touch", touchHandler)
   gpu.setResolution(originalScreenWidth, originalScreenHeight)
   
-  sound::playExit()
+  sound:playExit()
 end
 
 function touchHandler(_, _, x, y)
   if x > 77 and y == 1 then exitRequested = true
-  elseif 1 <= x and x <= 20 and y == 1 then currentTab = 0 sound::playChangeTab()
-  elseif 21 <= x and x <= 40 and y == 1 then currentTab = 1 sound::playChangeTab()
-  elseif 41 <= x and x <= 60 and y == 1 then currentTab = 2 sound::playChangeTab()
+  elseif 1 <= x and x <= 20 and y == 1 then currentTab = 0 sound:playChangeTab()
+  elseif 21 <= x and x <= 40 and y == 1 then currentTab = 1 sound:playChangeTab()
+  elseif 41 <= x and x <= 60 and y == 1 then currentTab = 2 sound:playChangeTab()
   elseif currentTab == 0 and y > 1 then overviewTouchHandler(x, y)
   elseif currentTab == 1 and y > 1 then ignitionTouchHandler(x, y)
   elseif currentTab == 2 and y > 1 then fusionTouchHandler(x, y)
@@ -77,11 +77,11 @@ end
 
 function ignitionTouchHandler(x, y)
   if screenWidth - (1 + 14) <= x and x < screenWidth - 1 and screenHeight - 3 <= y and y < screenHeight then
-    if laser::isReady() then
-      sound::playChangeTab()
-      laser::pulse()
+    if laser:isReady() then
+      sound:playChangeTab()
+      laser:pulse()
     else
-      sound::playError()
+      sound:playError()
     end
   end
 end
@@ -145,17 +145,17 @@ function drawOverview()
   gpu.setBackground(0x0000ff)
   
   terminal.setCursor(2, 3)
-  print(string.format("Ignited: %s", reactor::isIgnited() and "yes" or "no"))
+  print(string.format("Ignited: %s", reactor:isIgnited() and "yes" or "no"))
 end
 
 function drawIgnition()
   gpu.setBackground(0xff0000)
   
   terminal.setCursor(2, 3)
-  print(string.format("Laser charge: %.2f%%", laser::getEnergyPercentage() * 100))
+  print(string.format("Laser charge: %.2f%%", laser:getEnergyPercentage() * 100))
   
   local barMaxHeight = screenHeight - 5
-  local barHeight = math.floor(barMaxHeight * laser::getEnergyPercentage())
+  local barHeight = math.floor(barMaxHeight * laser:getEnergyPercentage())
   
   terminal.setCursor(7, 5)
   print("100%")
@@ -166,7 +166,7 @@ function drawIgnition()
   gpu.setBackground(0x333333)
   gpu.fill(3, 5, 3, barMaxHeight, " ")
   
-  gpu.setBackground(laser::isReady() and 0x33aa33 or 0xaa3333)
+  gpu.setBackground(laser:isReady() and 0x33aa33 or 0xaa3333)
   gpu.fill(3, 5 + (barMaxHeight - barHeight), 3, barHeight, " ")
   
   gpu.fill(screenWidth - (1 + 14), screenHeight - (3), 14, 3, " ")
