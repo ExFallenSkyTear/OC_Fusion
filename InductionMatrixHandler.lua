@@ -4,6 +4,7 @@ InductionMatrixHandler = {component = nil,
                    proxy = nil}
 
 -- Base class constructor
+
 function InductionMatrixHandler:new(address)
    instance = {}
    setmetatable(instance, self)

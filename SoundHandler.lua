@@ -2,7 +2,8 @@
 
 SoundHandler = {}
 
--- Base class constructor
+-- Base class constructo
+
 function SoundHandler:new()
    instance = {}
    setmetatable(instance, self)
