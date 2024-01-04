@@ -88,11 +88,9 @@ end
 
 function fusionTouchHandler(x, y)
   if 3 <= x and x <= screenWidth - 2 and 5 <= y and y <= 7 then
-    local percentage = (x - 3) / (screenWidth - (3 + 2))
-    local injectionRate = math.floor(98 * percentage)
-    injectionRate = injectionRate + (((injectionRate % 2) == 0) and 0 or 1)
+    local percentage = ((x - 3) / (screenWidth - (3 + 2))) * 98
     
-    reactor.setInjectionRate(injectionRate)
+    reactor::setInjectionRate(injectionRate)
     --computer.beep(200 + 800 * percentage, 0.1)
   end
 end
@@ -178,10 +176,10 @@ function drawFusion()
   gpu.setBackground(0xff00ff)
   
   terminal.setCursor(2, 3)
-  print(string.format("Injection rate: %dmb/t", reactor.getInjectionRate()))
+  print(string.format("Injection rate: %dmb/t", reactor:getInjectionRate()))
   
   local barMaxWidth = screenWidth - 4
-  local handlePosition = math.floor((barMaxWidth - 2) * (reactor.getInjectionRate() / 98))
+  local handlePosition = math.floor((barMaxWidth - 2) * (reactor:getInjectionRate() / 98))
   
   gpu.setBackground(0x333333)
   gpu.fill(3, 6, barMaxWidth, 1, " ")

@@ -25,3 +25,17 @@ end
 function ReactorHandler:isIgnited()
    return self.proxy.isIgnited()
 end
+
+function ReactorHandler:setInjectionRate(rate)
+   if rate > 98 then rate = 98 end
+   if rate < 0 then rate = 0 end
+
+   rate = math.floor(rate + 0.5)
+   rate = rate + (((rate % 2) == 0) and 0 or 1)
+   
+   sefl.proxy.setInjectionRate(rate)
+end
+
+function ReactorHandler:getInjectionRate(rate)
+   return sefl.proxy.getInjectionRate()
+end
