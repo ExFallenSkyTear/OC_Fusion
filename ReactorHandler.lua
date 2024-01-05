@@ -33,9 +33,9 @@ function ReactorHandler:setInjectionRate(rate)
    rate = math.floor(rate + 0.5)
    rate = rate + (((rate % 2) == 0) and 0 or 1)
    
-   sefl.proxy.setInjectionRate(rate)
+   self.proxy.setInjectionRate(rate)
 end
 
 function ReactorHandler:getInjectionRate(rate)
-   return sefl.proxy.getInjectionRate()
+   return self.proxy.getInjectionRate()
 end
