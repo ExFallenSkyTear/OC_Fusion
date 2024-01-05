@@ -31,7 +31,7 @@ function LaserHandler:getAddress()
 end
 
 function LaserHandler:getEnergyPercentage()
-    return self.getEnergy() / self.getMaxEnergy()
+    return self:getEnergy() / self:getMaxEnergy()
 end
 
 function LaserHandler:getEnergy()
@@ -56,5 +56,5 @@ function LaserHandler:getThreshold()
 end
 
 function LaserHandler:isReady()
-    return self.getEnergy() >= self.getThreshold()
+    return self:getEnergy() >= self:getThreshold()
 end
