@@ -21,7 +21,7 @@ function SoundHandler:playError()
 end
 
 function SoundHandler:playChangeTab()
-   self.computer.beep(1000, 0.1)
+   --self.computer.beep(1000, 0.1)
 end
 
 function SoundHandler:playExit()

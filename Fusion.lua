@@ -63,9 +63,9 @@ end
 
 function touchHandler(_, _, x, y)
   if x > 77 and y == 1 then exitRequested = true
-  elseif 1 <= x and x <= 20 and y == 1 then currentTab = 0 --sound:playChangeTab()
-  elseif 21 <= x and x <= 40 and y == 1 then currentTab = 1 --sound:playChangeTab()
-  elseif 41 <= x and x <= 60 and y == 1 then currentTab = 2 --sound:playChangeTab()
+  elseif 1 <= x and x <= 20 and y == 1 then currentTab = 0 sound:playChangeTab()
+  elseif 21 <= x and x <= 40 and y == 1 then currentTab = 1 sound:playChangeTab()
+  elseif 41 <= x and x <= 60 and y == 1 then currentTab = 2 sound:playChangeTab()
   elseif currentTab == 0 and y > 1 then overviewTouchHandler(x, y)
   elseif currentTab == 1 and y > 1 then ignitionTouchHandler(x, y)
   elseif currentTab == 2 and y > 1 then fusionTouchHandler(x, y)
