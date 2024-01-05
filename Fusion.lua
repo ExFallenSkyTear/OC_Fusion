@@ -2,6 +2,7 @@ require("ReactorHandler")
 require("LaserHandler")
 require("InductionMatrixHandler")
 require("SoundHandler")
+require("Utilities")
 
 local component = require("component")
 local thread = require("thread")
@@ -62,13 +63,15 @@ function exit()
 end
 
 function touchHandler(_, _, x, y)
-  if x > 77 and y == 1 then exitRequested = true
-  elseif 1 <= x and x <= 20 and y == 1 then currentTab = 0 sound:playChangeTab()
-  elseif 21 <= x and x <= 40 and y == 1 then currentTab = 1 sound:playChangeTab()
-  elseif 41 <= x and x <= 60 and y == 1 then currentTab = 2 sound:playChangeTab()
-  elseif currentTab == 0 and y > 1 then overviewTouchHandler(x, y)
-  elseif currentTab == 1 and y > 1 then ignitionTouchHandler(x, y)
-  elseif currentTab == 2 and y > 1 then fusionTouchHandler(x, y)
+  if isMouseOver(x, y, 78, 80, 1, 1) then exitRequested = true
+  elseif isMouseOver(x, y, 1, 20, 1, 1) then if currentTab ~= 0 then currentTab = 0 sound:playChangeTab() end
+  elseif isMouseOver(x, y, 21, 40, 1, 1) then if currentTab ~= 1 then currentTab = 1 sound:playChangeTab() end
+  elseif isMouseOver(x, y, 41, 60, 1, 1) then if currentTab ~= 2 then currentTab = 2 sound:playChangeTab() end
+  else
+    if currentTab == 0 then overviewTouchHandler(x, y)
+    elseif currentTab == 1 then ignitionTouchHandler(x, y)
+    elseif currentTab == 2 then fusionTouchHandler(x, y)
+    end
   end
 end
 
@@ -76,7 +79,8 @@ function overviewTouchHandler(x, y)
 end
 
 function ignitionTouchHandler(x, y)
-  if screenWidth - (1 + 14) <= x and x < screenWidth - 1 and screenHeight - 3 <= y and y < screenHeight then
+  --if screenWidth - (1 + 14) <= x and x < screenWidth - 1 and screenHeight - 3 <= y and y < screenHeight then
+  if isMouseOver(x, y, screenWidth - (1 + 14), screenWidth - 2, screenHeight - 3, screenHeight - 1) then
     if laser:isReady() then
       sound:playChangeTab()
       laser:pulse()
@@ -87,7 +91,7 @@ function ignitionTouchHandler(x, y)
 end
 
 function fusionTouchHandler(x, y)
-  if 3 <= x and x <= screenWidth - 2 and 5 <= y and y <= 7 then
+  if isMouseOver(x, y, 3, screenWidth - 2, 5, 7) then
     local percentage = ((x - 3) / (screenWidth - (3 + 2))) * 98
     
     reactor:setInjectionRate(percentage)
