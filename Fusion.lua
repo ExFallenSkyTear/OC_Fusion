@@ -162,7 +162,7 @@ function drawIgnition()
   terminal.setCursor(7, 5 + barMaxHeight - 1)
   print("0%")
   
-  gpu.setBackground(0x333333)
+  gpu.setBackground(0x424242)
   gpu.fill(3, 5, 3, barMaxHeight, " ")
   
   gpu.setBackground((laser:isReady() and reactor:canIgnite()) and 0x33aa33 or 0xaa3333)
@@ -180,14 +180,34 @@ function drawFusion()
   local barMaxWidth = screenWidth - 4
   local handlePosition = math.floor((barMaxWidth - 2) * (reactor:getInjectionRate() / 98))
   
-  gpu.setBackground(0x333333)
+  gpu.setBackground(0x424242)
   gpu.fill(3, 6, barMaxWidth, 1, " ")
   
   gpu.setBackground(0x999999)
   gpu.fill(3 + handlePosition, 5, 2, 3, " ")
+
+  terminal.setCursor(3 + handlePosition, 5)
+  print("≡")
 end
 
 function drawBattery()
+  terminal.setCursor(2, 3)
+  print(string.format("Charge: %.2f%%", inductionMatrix:getEnergyPercentage() * 100))
+  
+  local barMaxHeight = screenHeight - 5
+  local barHeight = math.floor(barMaxHeight * inductionMatrix:getEnergyPercentage())
+  
+  terminal.setCursor(7, 5)
+  print("100%")
+  
+  terminal.setCursor(7, 5 + barMaxHeight - 1)
+  print("0%")
+  
+  gpu.setBackground(0x424242)
+  gpu.fill(3, 5, 3, barMaxHeight, " ")
+  
+  gpu.setBackground(0xFDD835)
+  gpu.fill(3, 5 + (barMaxHeight - barHeight), 3, barHeight, " ")
 end
 
 main()

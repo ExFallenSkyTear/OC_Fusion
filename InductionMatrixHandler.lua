@@ -22,6 +22,10 @@ function InductionMatrixHandler:getAddress()
   return self.proxy.address
 end
 
+function InductionMatrixHandler:getEnergyPercentage()
+  return self:getEnergy() / self:getMaxEnergy()
+end
+
 function InductionMatrixHandler:getEnergy()
   return self.proxy.getEnergy()
 end
