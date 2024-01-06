@@ -66,6 +66,14 @@ function exit()
   sound:playExit()
 end
 
+function getTabColor(tabIndex)
+  if tabIndex == 0 then return overviewColor
+  elseif tabIndex == 1 then return ignitionColor
+  elseif tabIndex == 2 then return fusionColor
+  elseif tabIndex == 3 then return batteryColor
+  end
+end
+
 function touchHandler(_, _, x, y)
   if isMouseOver(x, y, 78, 80, 1, 1) then exitRequested = true
   elseif isMouseOver(x, y, 1, 20, 1, 1) then if currentTab ~= 0 then currentTab = 0 sound:playChangeTab() end
@@ -108,11 +116,7 @@ end
 
 function clear()
   gpu.setForeground(foregroundColor)
-  
-  if currentTab == 0 then gpu.setBackground(0x0000ff)
-  elseif currentTab == 1 then gpu.setBackground(0xff0000)
-  elseif currentTab == 2 then gpu.setBackground(0xff00ff)
-  end
+  gpu.setBackground(getTabColor(currentTab))
   
   terminal.clear()
 end
@@ -145,6 +149,8 @@ function drawTab(originX, width, bgcolor, fgcolor, text)
 end
 
 function drawContent()
+  gpu.setBackground(getTabColor(currentTab))
+
   if currentTab == 0 then drawOverview()
   elseif currentTab == 1 then drawIgnition()
   elseif currentTab == 2 then drawFusion()
@@ -153,15 +159,11 @@ function drawContent()
 end
 
 function drawOverview()
-  gpu.setBackground(overviewColor)
-  
   terminal.setCursor(2, 3)
   print(string.format("Ignited: %s", reactor:isIgnited() and "yes" or "no"))
 end
 
 function drawIgnition()
-  gpu.setBackground(ignitionColor)
-  
   terminal.setCursor(2, 3)
   print(string.format("Laser charge: %.2f%%", laser:getEnergyPercentage() * 100))
   
@@ -186,8 +188,6 @@ function drawIgnition()
 end
 
 function drawFusion()
-  gpu.setBackground(fusionColor)
-  
   terminal.setCursor(2, 3)
   print(string.format("Injection rate: %dmb/t", reactor:getInjectionRate()))
   
@@ -202,7 +202,6 @@ function drawFusion()
 end
 
 function drawBattery()
-  gpu.setBackground(batteryColor)
 end
 
 main()
