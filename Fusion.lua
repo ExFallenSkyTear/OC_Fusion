@@ -80,7 +80,7 @@ end
 
 function ignitionTouchHandler(x, y)
   if isMouseOver(x, y, screenWidth - (1 + 14), screenWidth - 2, screenHeight - 3, screenHeight - 1) then
-    if laser:isReady() and reactor:canIgnite() then
+    if laser:isReady() and reactor:canIgnite() and not reactor:isIgnited() then
       sound:playChangeTab()
       laser:pulse()
     else
