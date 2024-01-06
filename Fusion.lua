@@ -187,7 +187,7 @@ function drawFusion()
   gpu.setBackground(0x999999)
   gpu.fill(3 + handlePosition, 5, 2, 3, " ")
 
-  terminal.setCursor(3 + handlePosition + 1, 5)
+  terminal.setCursor(3 + handlePosition, 5 + 1)
   print("≡≡")
 end
 
