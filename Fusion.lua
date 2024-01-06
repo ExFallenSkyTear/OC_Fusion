@@ -17,7 +17,14 @@ local laser = LaserHandler:new(component.laser_amplifier.address)
 local inductionMatrix = InductionMatrixHandler:new(component.induction_matrix.address)
 local sound = SoundHandler:new()
 
-local backgroundColor = 0x444444
+local overviewColor = 0x333333 --0x0000ff
+local ignitionColor = 0x333333 --0xff0000
+local fusionColor = 0x333333 --0xff00ff
+local batteryColor = 0x333333 --0x00ffff
+
+local unselectedTabColor = 0x666666
+
+local backgroundColor = 0x000000
 local foregroundColor = 0xffffff
 
 local originalScreenWidth, originalScreenHeight = gpu.maxResolution()
@@ -79,7 +86,7 @@ end
 
 function ignitionTouchHandler(x, y)
   if isMouseOver(x, y, screenWidth - (1 + 14), screenWidth - 2, screenHeight - 3, screenHeight - 1) then
-    if laser:isReady() then
+    if laser:isReady() and reactor:canIgnite() then
       sound:playChangeTab()
       laser:pulse()
     else
@@ -121,10 +128,10 @@ function drawExitButton()
 end
 
 function drawTabs()
-  drawTab(1, 20, (currentTab == 0 and 0x0000ff or 0x666666), 0xffffff, "Overview")
-  drawTab(21, 19, (currentTab == 1 and 0xff0000 or 0x666666), 0xffffff, "Ignition")
-  drawTab(40, 19, (currentTab == 2 and 0xff00ff or 0x666666), 0xffffff, "Fusion")
-  drawTab(59, 19, (currentTab == 3 and 0x00ffff or 0x666666), 0xffffff, "Battery")
+  drawTab(1, 20, (currentTab == 0 and overviewColor or unselectedTabColor), foregroundColor, "Overview")
+  drawTab(21, 19, (currentTab == 1 and ignitionColor or unselectedTabColor), foregroundColor, "Ignition")
+  drawTab(40, 19, (currentTab == 2 and fusionColor or unselectedTabColor), foregroundColor, "Fusion")
+  drawTab(59, 19, (currentTab == 3 and batteryColor or unselectedTabColor), foregroundColor, "Battery")
 end
 
 function drawTab(originX, width, bgcolor, fgcolor, text)
@@ -146,14 +153,14 @@ function drawContent()
 end
 
 function drawOverview()
-  gpu.setBackground(0x0000ff)
+  gpu.setBackground(overviewColor)
   
   terminal.setCursor(2, 3)
   print(string.format("Ignited: %s", reactor:isIgnited() and "yes" or "no"))
 end
 
 function drawIgnition()
-  gpu.setBackground(0xff0000)
+  gpu.setBackground(ignitionColor)
   
   terminal.setCursor(2, 3)
   print(string.format("Laser charge: %.2f%%", laser:getEnergyPercentage() * 100))
@@ -170,7 +177,7 @@ function drawIgnition()
   gpu.setBackground(0x333333)
   gpu.fill(3, 5, 3, barMaxHeight, " ")
   
-  gpu.setBackground(laser:isReady() and 0x33aa33 or 0xaa3333)
+  gpu.setBackground((laser:isReady() and reactor:canIgnite()) and 0x33aa33 or 0xaa3333)
   gpu.fill(3, 5 + (barMaxHeight - barHeight), 3, barHeight, " ")
   
   gpu.fill(screenWidth - (1 + 14), screenHeight - (3), 14, 3, " ")
@@ -179,7 +186,7 @@ function drawIgnition()
 end
 
 function drawFusion()
-  gpu.setBackground(0xff00ff)
+  gpu.setBackground(fusionColor)
   
   terminal.setCursor(2, 3)
   print(string.format("Injection rate: %dmb/t", reactor:getInjectionRate()))
@@ -195,7 +202,7 @@ function drawFusion()
 end
 
 function drawBattery()
-  gpu.setBackground(0x00ffff)
+  gpu.setBackground(batteryColor)
 end
 
 main()
