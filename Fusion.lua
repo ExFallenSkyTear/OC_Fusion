@@ -97,7 +97,7 @@ function fusionTouchHandler(x, y)
   end
 end
 
-function baatteryTouchHandler(x, y)
+function batteryTouchHandler(x, y)
 end
 
 function clear()
@@ -108,8 +108,8 @@ function clear()
 end
 
 function drawExitButton()
-  gpu.setForeground(0xffffff)
-  gpu.setBackground(0xff0000)
+  gpu.setForeground(foregroundColor)
+  gpu.setBackground(0xD32F2F)
   
   gpu.fill(78, 1, 3, 1, " ")
   
