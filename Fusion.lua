@@ -17,15 +17,9 @@ local laser = LaserHandler:new(component.laser_amplifier.address)
 local inductionMatrix = InductionMatrixHandler:new(component.induction_matrix.address)
 local sound = SoundHandler:new()
 
-local overviewColor = 0x333333 --0x0000ff
-local ignitionColor = 0x333333 --0xff0000
-local fusionColor = 0x333333 --0xff00ff
-local batteryColor = 0x333333 --0x00ffff
-
-local unselectedTabColor = 0x666666
-
-local backgroundColor = 0x000000
+local backgroundColor = 0x333333
 local foregroundColor = 0xffffff
+local unselectedTabColor = 0x666666
 
 local originalScreenWidth, originalScreenHeight = gpu.maxResolution()
 local screenWidth = originalScreenWidth / 2
@@ -64,14 +58,6 @@ function exit()
   gpu.setResolution(originalScreenWidth, originalScreenHeight)
   
   sound:playExit()
-end
-
-function getTabColor(tabIndex)
-  if tabIndex == 0 then return overviewColor
-  elseif tabIndex == 1 then return ignitionColor
-  elseif tabIndex == 2 then return fusionColor
-  elseif tabIndex == 3 then return batteryColor
-  end
 end
 
 function touchHandler(_, _, x, y)
@@ -116,7 +102,7 @@ end
 
 function clear()
   gpu.setForeground(foregroundColor)
-  gpu.setBackground(getTabColor(currentTab))
+  gpu.setBackground(backgroundColor)
   
   terminal.clear()
 end
@@ -132,10 +118,10 @@ function drawExitButton()
 end
 
 function drawTabs()
-  drawTab(1, 20, (currentTab == 0 and overviewColor or unselectedTabColor), foregroundColor, "Overview")
-  drawTab(21, 19, (currentTab == 1 and ignitionColor or unselectedTabColor), foregroundColor, "Ignition")
-  drawTab(40, 19, (currentTab == 2 and fusionColor or unselectedTabColor), foregroundColor, "Fusion")
-  drawTab(59, 19, (currentTab == 3 and batteryColor or unselectedTabColor), foregroundColor, "Battery")
+  drawTab(1, 20, (currentTab == 0 and backgroundColor or unselectedTabColor), foregroundColor, "Overview")
+  drawTab(21, 19, (currentTab == 1 and backgroundColor or unselectedTabColor), foregroundColor, "Ignition")
+  drawTab(40, 19, (currentTab == 2 and backgroundColor or unselectedTabColor), foregroundColor, "Fusion")
+  drawTab(59, 19, (currentTab == 3 and backgroundColor or unselectedTabColor), foregroundColor, "Battery")
 end
 
 function drawTab(originX, width, bgcolor, fgcolor, text)
@@ -149,7 +135,7 @@ function drawTab(originX, width, bgcolor, fgcolor, text)
 end
 
 function drawContent()
-  gpu.setBackground(getTabColor(currentTab))
+  gpu.setBackground(backgroundColor)
 
   if currentTab == 0 then drawOverview()
   elseif currentTab == 1 then drawIgnition()
