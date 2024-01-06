@@ -26,10 +26,7 @@ local screenHeight = originalScreenHeight / 2
 gpu.setResolution(screenWidth, screenHeight)
 
 local exitRequested = false
-local currentTab = 0 -- [0]: Overview [1]: Ignition [2]: Fusion
-
---local drawBufferID = gpu.allocateBuffer(screenWidth, screenHeight)
---gpu.setActiveBuffer(drawBufferID)
+local currentTab = 0 -- [0]: Overview [1]: Ignition [2]: Fusion [3]: Battery
 
 function main()
   setup()
@@ -65,12 +62,14 @@ end
 function touchHandler(_, _, x, y)
   if isMouseOver(x, y, 78, 80, 1, 1) then exitRequested = true
   elseif isMouseOver(x, y, 1, 20, 1, 1) then if currentTab ~= 0 then currentTab = 0 sound:playChangeTab() end
-  elseif isMouseOver(x, y, 21, 40, 1, 1) then if currentTab ~= 1 then currentTab = 1 sound:playChangeTab() end
-  elseif isMouseOver(x, y, 41, 60, 1, 1) then if currentTab ~= 2 then currentTab = 2 sound:playChangeTab() end
+  elseif isMouseOver(x, y, 21, 39, 1, 1) then if currentTab ~= 1 then currentTab = 1 sound:playChangeTab() end
+  elseif isMouseOver(x, y, 40, 58, 1, 1) then if currentTab ~= 2 then currentTab = 2 sound:playChangeTab() end
+  elseif isMouseOver(x, y, 59, 77, 1, 1) then if currentTab ~= 3 then currentTab = 3 sound:playChangeTab() end
   else
     if currentTab == 0 then overviewTouchHandler(x, y)
     elseif currentTab == 1 then ignitionTouchHandler(x, y)
     elseif currentTab == 2 then fusionTouchHandler(x, y)
+    elseif currentTab == 3 then batteryTouchHandler(x, y)
     end
   end
 end
@@ -79,7 +78,6 @@ function overviewTouchHandler(x, y)
 end
 
 function ignitionTouchHandler(x, y)
-  --if screenWidth - (1 + 14) <= x and x < screenWidth - 1 and screenHeight - 3 <= y and y < screenHeight then
   if isMouseOver(x, y, screenWidth - (1 + 14), screenWidth - 2, screenHeight - 3, screenHeight - 1) then
     if laser:isReady() then
       sound:playChangeTab()
@@ -95,8 +93,10 @@ function fusionTouchHandler(x, y)
     local percentage = ((x - 3) / (screenWidth - (3 + 2))) * 98
     
     reactor:setInjectionRate(percentage)
-    --computer.beep(200 + 800 * percentage, 0.1)
   end
+end
+
+function baatteryTouchHandler(x, y)
 end
 
 function clear()
@@ -122,8 +122,9 @@ end
 
 function drawTabs()
   drawTab(1, 20, (currentTab == 0 and 0x0000ff or 0x666666), 0xffffff, "Overview")
-  drawTab(21, 20, (currentTab == 1 and 0xff0000 or 0x666666), 0xffffff, "Ignition")
-  drawTab(41, 20, (currentTab == 2 and 0xff00ff or 0x666666), 0xffffff, "Fusion")
+  drawTab(21, 19, (currentTab == 1 and 0xff0000 or 0x666666), 0xffffff, "Ignition")
+  drawTab(40, 19, (currentTab == 2 and 0xff00ff or 0x666666), 0xffffff, "Fusion")
+  drawTab(59, 19, (currentTab == 3 and 0x00ffff or 0x666666), 0xffffff, "Battery")
 end
 
 function drawTab(originX, width, bgcolor, fgcolor, text)
@@ -140,6 +141,7 @@ function drawContent()
   if currentTab == 0 then drawOverview()
   elseif currentTab == 1 then drawIgnition()
   elseif currentTab == 2 then drawFusion()
+  elseif currentTab == 3 then drawBattery()
   end
 end
 
@@ -190,6 +192,10 @@ function drawFusion()
   
   gpu.setBackground(0x999999)
   gpu.fill(3 + handlePosition, 5, 2, 3, " ")
+end
+
+function drawBattery()
+  gpu.setBackground(0x00ffff)
 end
 
 main()
