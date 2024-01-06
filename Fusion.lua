@@ -165,9 +165,10 @@ function drawIgnition()
   gpu.setBackground(0x424242)
   gpu.fill(3, 5, 3, barMaxHeight, " ")
   
-  gpu.setBackground((laser:isReady() and reactor:canIgnite()) and 0x33aa33 or 0xaa3333)
+  gpu.setBackground((laser:isReady()) and 0x388E3C or 0xD32F2F)
   gpu.fill(3, 5 + (barMaxHeight - barHeight), 3, barHeight, " ")
   
+  gpu.setBackground((laser:isReady() and reactor:canIgnite() and not reactor:isIgnited()) and 0x388E3C or 0xD32F2F)
   gpu.fill(screenWidth - (1 + 14), screenHeight - (3), 14, 3, " ")
   terminal.setCursor(screenWidth - (1 + 14 - 4), screenHeight - (3 - 1))
   print("Ignite")
