@@ -210,15 +210,15 @@ function drawBattery()
   gpu.setBackground(0xFDD835)
   gpu.fill(3, 5 + (barMaxHeight - barHeight), 3, barHeight, " ")
 
-  gpu.setBackground(0xFDD835)
-  gpu.fill(9, 5 + (barMaxHeight / 2) - 3, 10, 3, " ")
-  gpu.fill(9, 5 + (barMaxHeight / 2) + 3, 10, 3, " ")
+  gpu.setBackground(0x424242)
+  gpu.fill(9, 5 + (barMaxHeight / 2) - 3, 20, 3, " ")
+  gpu.fill(9, 5 + (barMaxHeight / 2) + 1, 20, 3, " ")
 
   terminal.setCursor(10, 5 + (barMaxHeight / 2) - 2)
-  print("test")
+  print(string.format("In: %.2fRF/t", inductionMatrix:getInput()))
 
-  terminal.setCursor(10, 5 + (barMaxHeight / 2) + 4)
-  print("test")
+  terminal.setCursor(10, 5 + (barMaxHeight / 2) + 2)
+  print(string.format("Out: %.2fRF/t", inductionMatrix:getOutput()))
 end
 
 main()
