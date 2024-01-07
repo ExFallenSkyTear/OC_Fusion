@@ -189,6 +189,23 @@ function drawFusion()
 
   terminal.setCursor(3 + handlePosition, 5 + 1)
   print("≡≡")
+
+  local barMaxHeight = screenHeight - 10
+  local barHeight = math.floor(barMaxHeight * reactor:getCaseHeat() / reactor:getMaxCaseHeat())
+
+  gpu.setBackground(0x424242)
+  gpu.fill(3, 10, 3, barMaxHeight, " ")
+  
+  gpu.setBackground(0xD32F2F)
+  gpu.fill(3, 10 + (barMaxHeight - barHeight), 3, barHeight, " ")
+
+  barHeight = math.floor(barMaxHeight * reactor:getPlasmaHeat() / reactor:getMaxPlasmaHeat())
+
+  gpu.setBackground(0x424242)
+  gpu.fill(13, 10, 3, barMaxHeight, " ")
+  
+  gpu.setBackground(0xD32F2F)
+  gpu.fill(13, 10 + (barMaxHeight - barHeight), 3, barHeight, " ")
 end
 
 function drawBattery()
