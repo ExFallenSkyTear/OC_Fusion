@@ -209,6 +209,16 @@ function drawBattery()
   
   gpu.setBackground(0xFDD835)
   gpu.fill(3, 5 + (barMaxHeight - barHeight), 3, barHeight, " ")
+
+  gpu.setBackground(0xFDD835)
+  gpu.fill(9, 5 + (barMaxHeight / 2) - 3, 10, 3, " ")
+  gpu.fill(9, 5 + (barMaxHeight / 2) + 3, 10, 3, " ")
+
+  terminal.setCursor(10, 5 + (barMaxHeight / 2) - 2)
+  print("test")
+
+  terminal.setCursor(10, 5 + (barMaxHeight / 2) + 4)
+  print("test")
 end
 
 main()
