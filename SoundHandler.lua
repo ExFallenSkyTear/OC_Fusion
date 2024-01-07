@@ -1,3 +1,4 @@
+require("Utilities")
 -- Meta class
 
 SoundHandler = {computer = nil}

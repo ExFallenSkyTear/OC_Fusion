@@ -1,3 +1,4 @@
+require("Utilities")
 -- Meta class
 
 ReactorHandler = {component = nil,
@@ -90,7 +91,7 @@ function ReactorHandler:setInjectionRate(rate)
    if rate > 98 then rate = 98 end
    if rate < 0 then rate = 0 end
 
-   rate = math.floor(rate + 0.5)
+   rate = round(rate)
    rate = rate + (((rate % 2) == 0) and 0 or 1)
    
    self.proxy.setInjectionRate(rate)
